@@ -30,7 +30,7 @@ public class Paciente {
   private String telefone;
   private String cpf;
 
-  private boolean ativo;
+  private Boolean ativo;
 
   @Embedded
   private Endereco endereco;
