@@ -1,9 +1,12 @@
 package med.voll.api.domain.consulta;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import med.voll.api.domain.ValidacaoException;
+import med.voll.api.domain.consulta.validacoes.ValidadorAgendamentoDeConsulta;
 import med.voll.api.domain.medico.Medico;
 import med.voll.api.domain.medico.MedicoRepository;
 import med.voll.api.domain.paciente.PacienteRepository;
@@ -21,7 +24,10 @@ public class AgendaDeConsultas {
   @Autowired
   private PacienteRepository pacienteRepository;
 
-  public void agendar(DadosAgendamentoConsulta dados) {
+  @Autowired
+  private List<ValidadorAgendamentoDeConsulta> validadores;
+
+  public DadosDetalhamentoConsulta agendar(DadosAgendamentoConsulta dados) {
     // verificar se existe o medico e paciente que estão sendo colados para o
     // agendamento da consulta
     if (!pacienteRepository.existsById(dados.idPaciente())) {
@@ -32,14 +38,24 @@ public class AgendaDeConsultas {
     if (dados.idMedico() != null && !medicoRepository.existsById(dados.idMedico())) {
       throw new ValidacaoException("Id do médico informado não existe!");
     }
+
+    // Injetar todos os validadores através de um forEach para percorrer a lista
+    validadores.forEach(v -> v.validar(dados));
+
     // pegar a entidade paciente por meio do repository
     var paciente = pacienteRepository.getReferenceById(dados.idPaciente());
 
     // como o médico é opcional, deve pegar aleatoriamente no banco de dados
     var medico = escolherMedico(dados);
+    // Caso nenhum médico esteja disponível para essa data
+    if (medico == null) {
+      throw new ValidacaoException("Não existe médico disponível nessa data!");
+    }
 
     var consulta = new Consulta(null, medico, paciente, dados.data());
     consultaRepository.save(consulta);
+
+    return new DadosDetalhamentoConsulta(consulta);
   }
 
   // Verifica se ta chegando um id medico pela requisicao, caso seja nulo, pegar
