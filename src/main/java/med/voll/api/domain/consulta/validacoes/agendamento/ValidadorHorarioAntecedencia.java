@@ -1,4 +1,4 @@
-package med.voll.api.domain.consulta.validacoes;
+package med.voll.api.domain.consulta.validacoes.agendamento;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -8,7 +8,9 @@ import org.springframework.stereotype.Component;
 import med.voll.api.domain.ValidacaoException;
 import med.voll.api.domain.consulta.DadosAgendamentoConsulta;
 
-@Component // Anotação de componente generico para o Spring saber
+@Component("ValidadorHorarioAntecedenciaAgendamento") // Anotação de componente generico para o Spring saber
+// Configurando para o Spring que as classes de da classe por meio da anotacao
+// component
 public class ValidadorHorarioAntecedencia implements ValidadorAgendamentoDeConsulta {
 
   public void validar(DadosAgendamentoConsulta dados) {

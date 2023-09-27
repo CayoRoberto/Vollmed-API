@@ -3,8 +3,8 @@ package med.voll.api.domain.consulta;
 import jakarta.validation.constraints.NotNull;
 
 public record DadosCancelamentoConsulta(
-                Long idConsulta,
+    @NotNull Long idConsulta,
 
-                @NotNull String motivo) {
+    @NotNull MotivoCancelamento motivo) {
 
 }
