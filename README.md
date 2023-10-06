@@ -2,7 +2,7 @@
 
 #Sobre
 
-Backend de uma aplicação que cadastra, atualiza e deleta dados de médicos e pacientes. Além de possibilitar o agendamento de consultas.
+Backend de uma aplicação que cadastra, atualiza e deleta dados de médicos e pacientes. Além de possibilitar o agendamento e cancelamento de consultas.
 
 Projeto figma: https://www.figma.com/file/N4CgpJqsg7gjbKuDmra3EV/Voll.med?type=design&node-id=2-1007&mode=design
 
